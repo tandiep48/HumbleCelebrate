@@ -1,8 +1,8 @@
 // --- 3D TEXT SPHERE LOGIC ---
 
 const texts = [
-    'I Love You', 'Forever Yours', 'Soulmate', 
-    'Always', 'My Sunshine', 'You & Me'
+    'uoY evoL I', 'reveroF sruoY', 'etamluoS', 
+    'syawlA', 'enihsnuS yM', 'eM & uoY'
 ];
 
 // Function to create and position each text item in a sphere
@@ -27,7 +27,7 @@ const createTagCloud = (texts) => {
     // --- Create the inner ring ---
     const innerText = firstHalfTexts.join(' • '); // Join with a separator for spacing
     const innerChars = innerText.split('');
-    const innerColors = ['#f87171', '#fb923c', '#fca5a5', '#fda4af'];
+    const innerColors = ['#ffffffff', '#ffffffff', '#ffffffff', '#ffffffff'];
 
     innerChars.forEach((char, i) => {
         if (char === ' ') return; // Skip spaces to avoid gaps
@@ -40,8 +40,8 @@ const createTagCloud = (texts) => {
         const x = radius1 * Math.cos(angle);
         const z = radius1 * Math.sin(angle);
         
-        // Position character on the circle and rotate it to face outwards
-        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad)`;
+        // Position character on the circle, rotate it to face out, then lay it flat
+        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad) rotateX(90deg)`;
         
         innerRingContainer.appendChild(charSpan);
     });
@@ -49,7 +49,7 @@ const createTagCloud = (texts) => {
     // --- Create the outer ring ---
     const outerText = secondHalfTexts.join(' • '); // Join with a separator
     const outerChars = outerText.split('');
-    const outerColors = ['#f9a8d4', '#f472b6', '#ec4899', '#db2777'];
+    const outerColors = ['#ffffffff', '#ffffffff', '#ffffffff', '#ffffffff'];
 
     outerChars.forEach((char, i) => {
         if (char === ' ') return; // Skip spaces
@@ -62,8 +62,8 @@ const createTagCloud = (texts) => {
         const x = radius2 * Math.cos(angle);
         const z = radius2 * Math.sin(angle);
         
-        // Position character on the circle and rotate it to face outwards
-        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad)`;
+        // Position character on the circle, rotate it to face out, then lay it flat
+        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad) rotateX(90deg)`;
         
         outerRingContainer.appendChild(charSpan);
     });
@@ -79,4 +79,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial setup
     createTagCloud(texts);
 });
-
