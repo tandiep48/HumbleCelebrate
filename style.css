@@ -1,3 +1,17 @@
+/* --- Video Background Styles --- */
+#bg-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  /* Add a dark overlay to make text more readable */
+  filter: brightness(0.6);
+}
+
 /* --- General Body and Font Styles --- */
 body {
   font-family: "Inter", sans-serif;
@@ -60,9 +74,15 @@ h2 {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* --- 3D Tag Cloud Styles (from library) --- */
@@ -73,14 +93,10 @@ h2 {
   color: #f1f5f9; /* slate-100 */
   margin: 0 auto; /* Centered with no vertical margin */
   text-align: center;
-  /* --- Responsive Sizing --- */
-  /* Use viewport width for responsiveness, with a max size */
+  /* --- Sizing for Desktop --- */
   width: 95vw;
-  min-width: 500px;
   max-width: 1000px;
   max-height: 500px;
-  min-height: 250px;
-  /* Let the height be determined by its content (the two clouds) */
   height: auto;
   /* Use flexbox to stack the two cloud containers vertically */
   display: flex;
@@ -91,9 +107,39 @@ h2 {
 .tagcloud--item {
   padding: 2px 4px;
   cursor: pointer;
-  overflow-wrap: normal;
+  /* This is crucial to override the library's default and allow text to wrap */
+  white-space: normal !important;
+}
+
+/* --- Specific widths for each text item --- */
+/* This targets the item inside the first cloud container */
+.tagcloud > div:first-child .tagcloud--item {
+  width: 250px;
+}
+
+/* This targets the item inside the second cloud container */
+.tagcloud > div:last-child .tagcloud--item {
+  width: 600px;
 }
 
 .tagcloud--item:hover {
   color: #fca5a5; /* red-300 */
+}
+
+/* --- Media Query for Mobile Devices --- */
+/* These styles will only apply on screens 768px or smaller */
+@media (max-width: 768px) {
+  .tagcloud {
+    /* Override with smaller values for mobile */
+    max-width: 95vw; /* Ensure it doesn't exceed the screen width */
+    max-height: 400px; /* A smaller max-height for phone screens */
+  }
+
+  /* Adjust widths for mobile as well */
+  .tagcloud > div:first-child .tagcloud--item {
+    width: 200px;
+  }
+  .tagcloud > div:last-child .tagcloud--item {
+    width: 320px; /* Make them fill their container on mobile */
+  }
 }
