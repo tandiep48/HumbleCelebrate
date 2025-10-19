@@ -1,112 +1,87 @@
+/* --- Video Background Styles --- */
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    /* Add a dark overlay to make text more readable */
+    filter: brightness(0.6);
+}
+
+/* --- General Body and Font Styles --- */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #0a0a0a;
-    color: #e2e8f0;
     overflow: hidden; /* Hide scrollbars */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    perspective: 1000px; /* Crucial for 3D effect */
 }
 
-.main-container {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    padding: 1rem;
+h1 {
+    font-family: 'Playfair Display', serif;
+    /* Add a subtle text shadow for better readability */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
 
-/* New Heart Styles */
-.heart-container {
-    margin-bottom: -1rem; /* Adjust spacing to pull text rings up */
-}
-.heart-svg {
-    width: 100px; /* Increased size */
-    height: 100px; /* Increased size */
-    fill: #f472b6;
-    filter: drop-shadow(0 0 15px #f472b6) drop-shadow(0 0 5px #f472b6);
-    animation: pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.15);
-        opacity: 0.9;
-    }
-}
-
-.tagcloud {
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    width: 450px;
-    height: 450px;
-    transform-style: preserve-3d;
-    margin-top: 2rem; 
-    transform: rotateX(-45deg); /* Increased tilt */
-}
-
-/* Containers for each ring */
-.inner-ring-container, .outer-ring-container {
+/* --- Fireworks Canvas Styles --- */
+#fireworksCanvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
+    z-index: 1; /* Behind content, but above video */
+    pointer-events: none; /* Allows clicking through the canvas */
 }
 
-/* Apply opposite animations */
-.inner-ring-container {
-    animation: rotate-cw 25s linear infinite;
-}
-.outer-ring-container {
-    animation: rotate-ccw 35s linear infinite; /* Slower for more dynamic effect */
+/* --- Main Content Container Styles --- */
+.main-container {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 1rem;
 }
 
-.tagcloud--char {
-    position: absolute;
-    top: 50%; /* Center relative to the ring container */
-    left: 50%;
+/* --- Pulsating Heart Animation --- */
+.heart-container {
+    width: 500px;
+    height: 500px;
+    margin: 1rem 0;
+    animation: pulse 2s infinite;
+}
+
+.heart-svg path {
+    fill: #fca5a5; /* red-300 */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* --- 3D Tag Cloud Styles (from library) --- */
+.tagcloud {
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: bold;
-    color: inherit;
-    opacity: 0.9;
-    transform-origin: center;
-    transition: color 0.3s, opacity 0.3s;
-    user-select: none;
-    cursor: default;
+    color: #f1f5f9; /* slate-100 */
+    margin: auto;
+    text-align: center;
+    width: 250px;
+    height: 250px;
 }
 
-.tagcloud--char:hover {
-    opacity: 1;
-    color: #fbbf24;
+.tagcloud--item {
+    padding: 2px 4px;
+    cursor: pointer;
 }
 
-/* Animation for clockwise rotation (inner ring) */
-@keyframes rotate-cw {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
+.tagcloud--item:hover {
+    color: #fca5a5; /* red-300 */
 }
-
-/* Animation for counter-clockwise rotation (outer ring) */
-@keyframes rotate-ccw {
-    from { transform: rotateY(360deg); }
-    to { transform: rotateY(0deg); }
-}
-
-h1 {
-    font-family: 'Playfair Display', serif;
-}
-
