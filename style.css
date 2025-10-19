@@ -1,3 +1,4 @@
+/* --- General Body and Font Styles --- */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #0a0a0a;
@@ -11,6 +12,27 @@ body {
     perspective: 1000px; /* Crucial for 3D effect */
 }
 
+/* --- Fireworks Canvas Styles (Added) --- */
+#fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Position behind all other content */
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    /* Add a subtle text shadow for better readability */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    /* Make font size responsive to prevent overflow on small screens. */
+    font-size: clamp(1.75rem, 8vw, 3rem);
+    line-height: 1.2;
+}
+
+/* --- Main Content Container Styles --- */
 .main-container {
     position: relative;
     z-index: 1;
@@ -23,13 +45,14 @@ body {
     padding: 1rem;
 }
 
-/* New Heart Styles */
+/* --- Heart Styles --- */
 .heart-container {
     margin-bottom: -1rem; /* Adjust spacing to pull text rings up */
 }
 .heart-svg {
-    width: 100px; /* Increased size */
-    height: 100px; /* Increased size */
+    /* Responsive width and height for the heart */
+    width: clamp(70px, 20vw, 100px);
+    height: clamp(70px, 20vw, 100px);
     fill: #f472b6;
     filter: drop-shadow(0 0 15px #f472b6) drop-shadow(0 0 5px #f472b6);
     animation: pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
@@ -46,12 +69,14 @@ body {
     }
 }
 
+/* --- 3D Text Ring Styles --- */
 .tagcloud {
     font-size: 16px;
     font-weight: bold;
     position: relative;
-    width: 450px;
-    height: 450px;
+    /* Make the container responsive */
+    width: clamp(300px, 90vw, 450px);
+    height: clamp(300px, 90vw, 450px);
     transform-style: preserve-3d;
     margin-top: 2rem; 
     transform: rotateX(-45deg); /* Increased tilt */
@@ -104,9 +129,5 @@ body {
 @keyframes rotate-ccw {
     from { transform: rotateY(360deg); }
     to { transform: rotateY(0deg); }
-}
-
-h1 {
-    font-family: 'Playfair Display', serif;
 }
 
