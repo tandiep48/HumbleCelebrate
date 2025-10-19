@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const getRadius = () => {
         // Use a smaller radius for mobile screens (e.g., less than 768px wide)
         if (window.innerWidth < 768) {
-            return 250; // Smaller radius for phones
+            return 120; // Smaller radius for phones
         }
         // Use a larger radius for tablets and desktops
         return 450; // Larger radius for bigger screens
