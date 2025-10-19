@@ -1,3 +1,4 @@
+// --- FIREWORKS ANIMATION LOGIC ---
 const canvas = document.getElementById('fireworksCanvas');
 const ctx = canvas.getContext('2d');
 let fireworks = [];
@@ -124,8 +125,8 @@ function animate(currentTime) {
 
 // --- 3D TEXT SPHERE LOGIC ---
 const texts = [
-    'uoY evoL I', 'reveroF sruoY', 'etamluoS', 
-    'syawlA', 'enihsnuS yM', 'eM & uoY'
+    'Wishing Maika happiness and success on Vietnamese Women\'s Day', 
+    'Chúc Quế Ngân có một ngày Phụ nữ Việt Nam thật bình an, hạnh phúc và nhiều thật nhiều niềm vui ^^.'
 ];
 
 const createTagCloud = (texts) => {
@@ -139,9 +140,11 @@ const createTagCloud = (texts) => {
     outerRingContainer.className = 'outer-ring-container';
 
     const containerSize = container.offsetWidth;
-    const radius1 = containerSize * 0.27;
-    const radius2 = containerSize * 0.45;
+    // Increased the multipliers to make the rings bigger
+    const radius1 = containerSize * 0.40; 
+    const radius2 = containerSize * 0.65;
     
+    // The logic now correctly handles an array with any number of items
     const midPoint = Math.ceil(texts.length / 2);
     const firstHalfTexts = texts.slice(0, midPoint);
     const secondHalfTexts = texts.slice(midPoint);
@@ -204,3 +207,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100); 
     });
 });
+
