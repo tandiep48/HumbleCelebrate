@@ -28,8 +28,8 @@ body {
     margin-bottom: -1rem; /* Adjust spacing to pull text rings up */
 }
 .heart-svg {
-    width: 50px;
-    height: 50px;
+    width: 100px; /* Increased size */
+    height: 100px; /* Increased size */
     fill: #f472b6;
     filter: drop-shadow(0 0 15px #f472b6) drop-shadow(0 0 5px #f472b6);
     animation: pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
@@ -46,7 +46,6 @@ body {
     }
 }
 
-
 .tagcloud {
     font-size: 16px;
     font-weight: bold;
@@ -55,7 +54,7 @@ body {
     height: 450px;
     transform-style: preserve-3d;
     margin-top: 2rem; 
-    transform: rotateX(-20deg); /* Apply static tilt to the parent */
+    transform: rotateX(-45deg); /* Increased tilt */
 }
 
 /* Containers for each ring */
