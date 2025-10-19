@@ -11,17 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const getRadius = () => {
         // Use a smaller radius for mobile screens (e.g., less than 768px wide)
         if (window.innerWidth < 768) {
-            return 300; // Smaller radius for phones
+            return 250; // Smaller radius for phones
         }
         // Use a larger radius for tablets and desktops
-        return 300; // Larger radius for bigger screens
+        return 450; // Larger radius for bigger screens
     };
 
     const options = {
         radius: getRadius(), // Set the radius dynamically
         maxSpeed: 'fast',
         initSpeed: 'fast',
-        direction: 135,
+        direction: 110,
         keep: true
     };
 

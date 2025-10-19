@@ -90,14 +90,14 @@ h2 {
     text-align: center;
     width: 90vw;
     height: 300px;
-    max-width: 900px; /* Allow it to be quite wide on desktops */
-    max-height: 500px; /* Height will be determined by content and radius */
+    max-width: 1000px; /* Allow it to be quite wide on desktops */
+    max-height: 300px; /* Height will be determined by content and radius */
 }
 
 .tagcloud--item {
     padding: 2px 4px;
     cursor: pointer;
-    white-space: nowrap; /* Prevent individual items from wrapping */
+    white-space: pre-warp; /* Prevent individual items from wrapping */
 }
 
 .tagcloud--item:hover {
