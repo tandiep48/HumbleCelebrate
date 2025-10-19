@@ -1,210 +1,90 @@
-// --- FIREWORKS ANIMATION LOGIC ---
-const canvas = document.getElementById('fireworksCanvas');
-const ctx = canvas.getContext('2d');
-let fireworks = [];
-let particles = [];
+// --- 3D Tag Cloud Initialization ---
+document.addEventListener('DOMContentLoaded', function() {
+    const texts = [
+        'Yêu thương', 'Hạnh phúc', 'Xinh đẹp',
+        'Tỏa sáng', 'Thành công', 'Dịu dàng',
+        'Mạnh mẽ', 'Chúc mừng', 'Quý phái',
+        'Rạng rỡ', 'Tươi vui', 'May mắn', '20/10'
+    ];
 
-function setupCanvas() {
+    const options = {
+        radius: 150,
+        maxSpeed: 'normal',
+        initSpeed: 'fast',
+        direction: 135,
+        keep: true
+    };
+
+    TagCloud('.tagcloud', texts, options);
+
+
+    // --- Fireworks Animation ---
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-}
 
-// Utility to get a random value from a range
-function random(min, max) {
-    return Math.random() * (max - min) + min;
-}
+    let particles = [];
 
-// Particle class for the explosion effect
-class Particle {
-    constructor(x, y, color) {
+    function Particle(x, y, color) {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.size = random(1, 3);
-        this.alpha = 1;
-        this.friction = 0.97;
-        this.gravity = 0.1;
-        const angle = random(0, Math.PI * 2);
-        const speed = random(1, 6);
-        this.velocity = {
-            x: Math.cos(angle) * speed,
-            y: Math.sin(angle) * speed
-        };
+        this.size = Math.random() * 3 + 1;
+        this.vx = Math.random() * 4 - 2;
+        this.vy = Math.random() * 4 - 2;
+        this.life = 100;
     }
 
-    update() {
-        this.velocity.x *= this.friction;
-        this.velocity.y *= this.friction;
-        this.velocity.y += this.gravity;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-        this.alpha -= 0.015;
-        return this.alpha > 0;
-    }
-
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-        ctx.fill();
-        ctx.restore();
-    }
-}
-
-// Firework class for the rising rocket
-class Firework {
-    constructor() {
-        this.x = random(canvas.width * 0.2, canvas.width * 0.8);
-        this.y = canvas.height;
-        this.targetY = random(canvas.height * 0.2, canvas.height * 0.5);
-        this.color = `hsl(${random(0, 360)}, 100%, 70%)`;
-        this.trail = [];
-    }
-
-    update() {
-        const dy = this.targetY - this.y;
-        this.y += dy * 0.05; // Ease towards the target
-
-        this.trail.push({ x: this.x, y: this.y, alpha: 1 });
-        if (this.trail.length > 5) {
-            this.trail.shift();
+    Particle.prototype.update = function(index) {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life -= 1;
+        if (this.life <= 0) {
+            particles.splice(index, 1);
+            return false; // Indicate that the particle was removed
         }
-        this.trail.forEach(p => p.alpha -= 0.1);
+        return true; // Indicate that the particle is still alive
+    };
 
-        return this.y > this.targetY + 1;
-    }
+    Particle.prototype.draw = function() {
+        ctx.globalAlpha = this.life / 100;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    };
 
-    explode() {
-        const particleCount = 80;
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle(this.x, this.y, this.color));
+    function createFirework() {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const color = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random bright color
+
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle(x, y, color));
         }
     }
 
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-        ctx.fill();
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        this.trail.forEach(p => {
-            ctx.beginPath();
-            ctx.fillStyle = `hsla(${parseInt(this.color.match(/\d+/)[0])}, 100%, 70%, ${p.alpha})`;
-            ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-            ctx.fill();
-        });
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const isAlive = particles[i].update(i);
+            
+            if (isAlive) {
+                particles[i].draw();
+            }
+        }
+        requestAnimationFrame(animate);
     }
-}
 
-let lastLaunchTime = 0;
-function animate(currentTime) {
-    requestAnimationFrame(animate);
-    ctx.fillStyle = 'rgba(10, 10, 10, 0.15)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    if (currentTime - lastLaunchTime > random(400, 1000)) {
-        fireworks.push(new Firework());
-        lastLaunchTime = currentTime;
-    }
+    // Create fireworks periodically
+    setInterval(createFirework, 2000);
+    animate();
     
-    fireworks = fireworks.filter(fw => {
-        fw.draw();
-        const alive = fw.update();
-        if (!alive) fw.explode();
-        return alive;
-    });
-
-    particles = particles.filter(p => {
-        p.draw();
-        return p.update();
-    });
-}
-
-
-// --- 3D TEXT SPHERE LOGIC ---
-const texts = [
-    'Wishing Maika happiness and success on Vietnamese Women\'s Day', 
-    'Chúc Quế Ngân có một ngày Phụ nữ Việt Nam thật bình an, hạnh phúc và nhiều thật nhiều niềm vui ^^.'
-];
-
-const createTagCloud = (texts) => {
-    const container = document.getElementById('tagcloud');
-    if (!container) return;
-    container.innerHTML = ''; 
-
-    const innerRingContainer = document.createElement('div');
-    innerRingContainer.className = 'inner-ring-container';
-    const outerRingContainer = document.createElement('div');
-    outerRingContainer.className = 'outer-ring-container';
-
-    const containerSize = container.offsetWidth;
-    // Increased the multipliers to make the rings bigger
-    const radius1 = containerSize * 0.40; 
-    const radius2 = containerSize * 0.65;
-    
-    // The logic now correctly handles an array with any number of items
-    const midPoint = Math.ceil(texts.length / 2);
-    const firstHalfTexts = texts.slice(0, midPoint);
-    const secondHalfTexts = texts.slice(midPoint);
-
-    const innerText = firstHalfTexts.join(' • ');
-    const innerChars = innerText.split('');
-    innerChars.forEach((char, i) => {
-        if (char === ' ') return;
-        const charSpan = document.createElement('span');
-        charSpan.className = 'tagcloud--char';
-        charSpan.textContent = char;
-        charSpan.style.color = '#ffffff';
-
-        const angle = (i / innerChars.length) * 2 * Math.PI;
-        const x = radius1 * Math.cos(angle);
-        const z = radius1 * Math.sin(angle);
-        
-        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad) rotateX(90deg)`;
-        innerRingContainer.appendChild(charSpan);
-    });
-
-    const outerText = secondHalfTexts.join(' • ');
-    const outerChars = outerText.split('');
-    outerChars.forEach((char, i) => {
-        if (char === ' ') return;
-        const charSpan = document.createElement('span');
-        charSpan.className = 'tagcloud--char';
-        charSpan.textContent = char;
-        charSpan.style.color = '#ffffff';
-
-        const angle = (i / outerChars.length) * 2 * Math.PI;
-        const x = radius2 * Math.cos(angle);
-        const z = radius2 * Math.sin(angle);
-        
-        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad) rotateX(90deg)`;
-        outerRingContainer.appendChild(charSpan);
-    });
-
-    container.appendChild(innerRingContainer);
-    container.appendChild(outerRingContainer);
-};
-
-
-// --- INITIALIZATION AND RESIZE HANDLING ---
-document.addEventListener('DOMContentLoaded', () => {
-    // Setup and start fireworks
-    setupCanvas();
-    animate(0);
-
-    // Initial setup for text rings
-    createTagCloud(texts);
-
-    // Add a resize listener for both animations
-    let resizeTimer;
     window.addEventListener('resize', () => {
-        setupCanvas(); // Resize canvas immediately
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            createTagCloud(texts);
-        }, 100); 
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     });
 });
 
