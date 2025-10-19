@@ -1,89 +1,82 @@
-// --- 3D Tag Cloud Initialization ---
-document.addEventListener('DOMContentLoaded', function() {
-    const texts = [
-        'Yêu thương', 'Hạnh phúc', 'Xinh đẹp',
-        'Tỏa sáng', 'Thành công', 'Dịu dàng',
-        'Mạnh mẽ', 'Chúc mừng', 'Quý phái',
-        'Rạng rỡ', 'Tươi vui', 'May mắn', '20/10'
-    ];
+// --- 3D TEXT SPHERE LOGIC ---
 
-    const options = {
-        radius: 150,
-        maxSpeed: 'normal',
-        initSpeed: 'fast',
-        direction: 135,
-        keep: true
-    };
+const texts = [
+    'I Love You', 'Forever Yours', 'Soulmate', 
+    'Always', 'My Sunshine', 'You & Me'
+];
 
-    TagCloud('.tagcloud', texts, options);
+// Function to create and position each text item in a sphere
+const createTagCloud = (texts) => {
+    const container = document.getElementById('tagcloud');
+    container.innerHTML = ''; // Clear previous items
 
+    // Create separate containers for each ring
+    const innerRingContainer = document.createElement('div');
+    innerRingContainer.className = 'inner-ring-container';
+    const outerRingContainer = document.createElement('div');
+    outerRingContainer.className = 'outer-ring-container';
 
-    // --- Fireworks Animation ---
-    const canvas = document.getElementById('fireworksCanvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particles = [];
-
-    function Particle(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.size = Math.random() * 3 + 1;
-        this.vx = Math.random() * 4 - 2;
-        this.vy = Math.random() * 4 - 2;
-        this.life = 100;
-    }
-
-    Particle.prototype.update = function(index) {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life -= 1;
-        if (this.life <= 0) {
-            particles.splice(index, 1);
-            return false; // Indicate that the particle was removed
-        }
-        return true; // Indicate that the particle is still alive
-    };
-
-    Particle.prototype.draw = function() {
-        ctx.globalAlpha = this.life / 100;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    };
-
-    function createFirework() {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const color = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random bright color
-
-        for (let i = 0; i < 50; i++) {
-            particles.push(new Particle(x, y, color));
-        }
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-            const isAlive = particles[i].update(i);
-            
-            if (isAlive) {
-                particles[i].draw();
-            }
-        }
-        requestAnimationFrame(animate);
-    }
-
-    // Create fireworks periodically
-    setInterval(createFirework, 2000);
-    animate();
+    const radius1 = 120; // Radius for the inner circle
+    const radius2 = 200; // Radius for the outer, bigger circle
     
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    // Split texts for two rings
+    const midPoint = Math.ceil(texts.length / 2);
+    const firstHalfTexts = texts.slice(0, midPoint);
+    const secondHalfTexts = texts.slice(midPoint);
+
+    // --- Create the inner ring ---
+    const innerText = firstHalfTexts.join(' • '); // Join with a separator for spacing
+    const innerChars = innerText.split('');
+    const innerColors = ['#f87171', '#fb923c', '#fca5a5', '#fda4af'];
+
+    innerChars.forEach((char, i) => {
+        if (char === ' ') return; // Skip spaces to avoid gaps
+        const charSpan = document.createElement('span');
+        charSpan.className = 'tagcloud--char';
+        charSpan.textContent = char;
+        charSpan.style.color = innerColors[i % innerColors.length];
+
+        const angle = (i / innerChars.length) * 2 * Math.PI;
+        const x = radius1 * Math.cos(angle);
+        const z = radius1 * Math.sin(angle);
+        
+        // Position character on the circle and rotate it to face outwards
+        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad)`;
+        
+        innerRingContainer.appendChild(charSpan);
     });
+
+    // --- Create the outer ring ---
+    const outerText = secondHalfTexts.join(' • '); // Join with a separator
+    const outerChars = outerText.split('');
+    const outerColors = ['#f9a8d4', '#f472b6', '#ec4899', '#db2777'];
+
+    outerChars.forEach((char, i) => {
+        if (char === ' ') return; // Skip spaces
+        const charSpan = document.createElement('span');
+        charSpan.className = 'tagcloud--char';
+        charSpan.textContent = char;
+        charSpan.style.color = outerColors[i % outerColors.length];
+
+        const angle = (i / outerChars.length) * 2 * Math.PI;
+        const x = radius2 * Math.cos(angle);
+        const z = radius2 * Math.sin(angle);
+        
+        // Position character on the circle and rotate it to face outwards
+        charSpan.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${angle + Math.PI/2}rad)`;
+        
+        outerRingContainer.appendChild(charSpan);
+    });
+
+    // Append both ring containers to the main cloud
+    container.appendChild(innerRingContainer);
+    container.appendChild(outerRingContainer);
+};
+
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial setup
+    createTagCloud(texts);
 });
+

@@ -3,42 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mừng 20 tháng 10</title>
+    <title>Romantic Message Sphere</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-black text-slate-200">
 
-    <!-- Video Background -->
-    <!-- IMPORTANT: Replace the 'src' with the path to your own .mp4 file -->
-    <video autoplay muted loop id="bg-video">
-        <!-- Using a placeholder video. Replace this with your file. -->
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-red-and-white-fireworks-in-the-sky-at-night-39634-large.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <!-- Canvas for the heart firework animation --><canvas id="fireworksCanvas"></canvas>
 
-    <!-- Canvas for the heart firework animation -->
-    <canvas id="fireworksCanvas"></canvas>
-
-    <!-- Main content container -->
-    <div class="main-container">
+    <!-- Main content container --><div class="main-container">
         <h1 class="text-4xl md:text-5xl font-bold text-center text-red-300 mb-4">Mừng 20 tháng 10</h1>
         
         <div class="heart-container">
-            <svg class="heart-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="heart-svg" style="width: 100px; height: 100px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
         </div>
 
-        <!-- The 3D text sphere will be generated here -->
-        <div id="tagcloud" class="tagcloud"></div>
+        <!-- The 3D text sphere will be generated here --><div id="tagcloud" class="tagcloud"></div>
     </div>
 
-    <!-- External JavaScript libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"></script>
-    <!-- Link to the external JavaScript file -->
     <script src="script.js" defer></script>
 </body>
 </html>
