@@ -22,6 +22,10 @@ h1 {
     font-family: 'Playfair Display', serif;
     /* Add a subtle text shadow for better readability */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    /* Make font size responsive to prevent overflow on small screens. */
+    /* It will be at least 1.75rem, at most 3rem, and will scale with the viewport width. */
+    font-size: clamp(1.75rem, 8vw, 3rem);
+    line-height: 1.2; /* Adjust line-height for better wrapping */
 }
 
 /* --- Fireworks Canvas Styles --- */
@@ -45,12 +49,14 @@ h1 {
     justify-content: center;
     height: 100vh;
     padding: 1rem;
+    width: 100%; /* Ensure container takes full width */
 }
 
 /* --- Pulsating Heart Animation --- */
 .heart-container {
-    width: 500px;
-    height: 500px;
+    /* Responsive width and height for the heart */
+    width: clamp(70px, 20vw, 100px);
+    height: clamp(70px, 20vw, 100px);
     margin: 1rem 0;
     animation: pulse 2s infinite;
 }
@@ -73,8 +79,11 @@ h1 {
     color: #f1f5f9; /* slate-100 */
     margin: auto;
     text-align: center;
-    width: 250px;
-    height: 250px;
+    /* Make the tag cloud responsive */
+    width: 90vw;
+    height: 90vw;
+    max-width: 250px;
+    max-height: 250px;
 }
 
 .tagcloud--item {
@@ -85,3 +94,4 @@ h1 {
 .tagcloud--item:hover {
     color: #fca5a5; /* red-300 */
 }
+
