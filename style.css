@@ -18,15 +18,23 @@ body {
     overflow: hidden; /* Hide scrollbars */
 }
 
-h1 {
+h1, h2 {
     font-family: 'Playfair Display', serif;
     /* Add a subtle text shadow for better readability */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    /* Make font size responsive to prevent overflow on small screens. */
-    /* It will be at least 1.75rem, at most 3rem, and will scale with the viewport width. */
-    font-size: clamp(1.75rem, 8vw, 3rem);
-    line-height: 1.2; /* Adjust line-height for better wrapping */
+    /* Make font size responsive */
+    line-height: 1.2;
+    text-align: center;
 }
+
+h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
 
 /* --- Fireworks Canvas Styles --- */
 #fireworksCanvas {
@@ -55,9 +63,9 @@ h1 {
 /* --- Pulsating Heart Animation --- */
 .heart-container {
     /* Responsive width and height for the heart */
-    width: clamp(250px, 20vw, 100px);
-    height: clamp(250px, 20vw, 100px);
-    margin: 1rem 0;
+    width: clamp(80px, 15vw, 120px);
+    height: clamp(80px, 15vw, 120px);
+    margin: 0.5rem 0;
     animation: pulse 2s infinite;
 }
 
@@ -74,21 +82,22 @@ h1 {
 /* --- 3D Tag Cloud Styles (from library) --- */
 .tagcloud {
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: clamp(12px, 2.5vw, 16px);
     font-weight: bold;
     color: #f1f5f9; /* slate-100 */
     margin: auto;
+    margin-top: 0px;
     text-align: center;
-    /* Make the tag cloud responsive and larger */
-    width: 90vw;      /* Use viewport width for responsiveness */
-    height: 90vw;     /* Keep it square */
-    max-width: 1000px; /* Set an even larger max size to prevent wrapping */
-    max-height: 500px;/* Set an even larger max size */
+    width: 90vw;
+    height: 300px;
+    max-width: 900px; /* Allow it to be quite wide on desktops */
+    max-height: 500px; /* Height will be determined by content and radius */
 }
 
 .tagcloud--item {
     padding: 2px 4px;
     cursor: pointer;
+    white-space: nowrap; /* Prevent individual items from wrapping */
 }
 
 .tagcloud--item:hover {

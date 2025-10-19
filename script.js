@@ -5,16 +5,28 @@ document.addEventListener('DOMContentLoaded', function() {
         'Chúc Quế Ngân có một ngày Phụ nữ Việt Nam thật bình an, hạnh phúc và nhiều thật nhiều niềm vui ^^.',
     ];
     
+    // --- Responsive Radius Calculation ---
+    // This function checks the screen width and sets an appropriate radius
+    // for the TagCloud, ensuring it looks good on both mobile and desktop.
+    const getRadius = () => {
+        // Use a smaller radius for mobile screens (e.g., less than 768px wide)
+        if (window.innerWidth < 768) {
+            return 300; // Smaller radius for phones
+        }
+        // Use a larger radius for tablets and desktops
+        return 300; // Larger radius for bigger screens
+    };
+
     const options = {
-        radius: 400, // Increased radius to fill the new, larger container
+        radius: getRadius(), // Set the radius dynamically
         maxSpeed: 'fast',
         initSpeed: 'fast',
         direction: 135,
         keep: true
     };
 
-    TagCloud('.tagcloud', texts, options);
-
+    // Initialize the TagCloud
+    let myTagCloud = TagCloud('.tagcloud', texts, options);
 
     // --- Fireworks Animation ---
     const canvas = document.getElementById('fireworksCanvas');
@@ -28,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.size = Math.random() * 3 + 1;
-        this.vx = Math.random() * 4 - 2;
-        this.vy = Math.random() * 4 - 2;
+        this.size = Math.random() * 2.5;
+        this.vx = Math.random() * 4 - 1;
+        this.vy = Math.random() * 4 - 1;
         this.life = 100;
     }
 
@@ -40,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         this.life -= 1;
         if (this.life <= 0) {
             particles.splice(index, 1);
-            return false; // Indicate that the particle was removed
+            return false;
         }
-        return true; // Indicate that the particle is still alive
+        return true;
     };
 
     Particle.prototype.draw = function() {
@@ -56,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function createFirework() {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const color = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random bright color
+        const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
 
         for (let i = 0; i < 50; i++) {
             particles.push(new Particle(x, y, color));
@@ -76,15 +88,21 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(animate);
     }
 
-    // Create fireworks periodically
     setInterval(createFirework, 2000);
     animate();
     
+    // --- Window Resize Handling ---
+    // This will resize the canvas and also update the TagCloud radius
+    // if the user resizes their browser window.
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        // Update the TagCloud with the new radius on resize
+        const newOptions = {
+            radius: getRadius()
+        };
+        myTagCloud.update(newOptions);
     });
 });
-
-
 
