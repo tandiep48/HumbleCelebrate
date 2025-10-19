@@ -1,15 +1,13 @@
 // --- 3D Tag Cloud Initialization ---
 document.addEventListener('DOMContentLoaded', function() {
     const texts = [
-        'Yêu thương', 'Hạnh phúc', 'Xinh đẹp',
-        'Tỏa sáng', 'Thành công', 'Dịu dàng',
-        'Mạnh mẽ', 'Chúc mừng', 'Quý phái',
-        'Rạng rỡ', 'Tươi vui', 'May mắn', '20/10'
+        'Wishing Maika happiness and success on Vietnamese Women\'s Day',
+        'Chúc Quế Ngân có một ngày Phụ nữ Việt Nam thật bình an, hạnh phúc và nhiều thật nhiều niềm vui ^^.',
     ];
 
     const options = {
-        radius: 150,
-        maxSpeed: 'normal',
+        radius: 250, // Increased radius to give text more space
+        maxSpeed: 'fast',
         initSpeed: 'fast',
         direction: 135,
         keep: true

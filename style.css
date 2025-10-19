@@ -55,8 +55,8 @@ h1 {
 /* --- Pulsating Heart Animation --- */
 .heart-container {
     /* Responsive width and height for the heart */
-    width: clamp(70px, 20vw, 100px);
-    height: clamp(70px, 20vw, 100px);
+    width: clamp(250px, 20vw, 100px);
+    height: clamp(250px, 20vw, 100px);
     margin: 1rem 0;
     animation: pulse 2s infinite;
 }
@@ -79,11 +79,11 @@ h1 {
     color: #f1f5f9; /* slate-100 */
     margin: auto;
     text-align: center;
-    /* Make the tag cloud responsive */
-    width: 90vw;
-    height: 90vw;
-    max-width: 250px;
-    max-height: 250px;
+    /* Make the tag cloud responsive and larger */
+    width: 90vw;      /* Use viewport width for responsiveness */
+    height: 90vw;     /* Keep it square */
+    max-width: 800px; /* Set a larger max size */
+    max-height: 800px;/* Set a larger max size */
 }
 
 .tagcloud--item {
@@ -94,4 +94,5 @@ h1 {
 .tagcloud--item:hover {
     color: #fca5a5; /* red-300 */
 }
+
 
