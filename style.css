@@ -82,8 +82,8 @@ h1 {
     /* Make the tag cloud responsive and larger */
     width: 90vw;      /* Use viewport width for responsiveness */
     height: 90vw;     /* Keep it square */
-    max-width: 800px; /* Set a larger max size */
-    max-height: 800px;/* Set a larger max size */
+    max-width: 1000px; /* Set an even larger max size to prevent wrapping */
+    max-height: 500px;/* Set an even larger max size */
 }
 
 .tagcloud--item {
@@ -94,5 +94,4 @@ h1 {
 .tagcloud--item:hover {
     color: #fca5a5; /* red-300 */
 }
-
 

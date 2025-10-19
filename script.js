@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'Wishing Maika happiness and success on Vietnamese Women\'s Day',
         'Chúc Quế Ngân có một ngày Phụ nữ Việt Nam thật bình an, hạnh phúc và nhiều thật nhiều niềm vui ^^.',
     ];
-
+    
     const options = {
-        radius: 250, // Increased radius to give text more space
+        radius: 400, // Increased radius to fill the new, larger container
         maxSpeed: 'fast',
         initSpeed: 'fast',
         direction: 135,
@@ -85,4 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         canvas.height = window.innerHeight;
     });
 });
+
+
 
